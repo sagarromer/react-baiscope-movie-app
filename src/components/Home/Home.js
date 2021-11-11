@@ -70,19 +70,37 @@ class Home extends Component {
 
     render() {
         return (
-        <div className="rmdb-home">
-            <div>
-            <HeroImage
-            image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${this.state.heroImage.backdrop_path}`}
-            title={this.state.heroImage.original_title}
-            text={this.state.heroImage.overview}
-            />
-            <SearchBar callback={this.searchItems} />
-        </div> : null }
-            <FourColGrid />
-            <Spinner />
-            <LoadMoreBtn />
-        </div>
+            <div className="rmdb-home">
+            {this.state.heroImage ?
+                <div>
+                    <HeroImage
+                        image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${this.state.heroImage.backdrop_path}`}
+                        title={this.state.heroImage.original_title}
+                        text={this.state.heroImage.overview}
+                    />
+                    <SearchBar callback={this.searchItems} />
+                </div> : null }
+                <div className="rmdb-home-grid">
+                    <FourColGrid
+                    header={this.state.searchTerm ? 'Search Result' : 'Popular Movies'}
+                    loading={this.state.loading}
+                    >
+                    {this.state.movies.map ( (element, i) => {
+                        return <MovieThumb
+                                key={i}
+                                clickable={true}
+                                image={element.poster_path ? `${IMAGE_BASE_URL}${POSTER_SIZE}${element.poster_path}` : './images/no_image.jpg'}
+                                movieId={element.id}
+                                movieName={element.original_title}
+                            />
+                    })}
+                    </FourColGrid>
+                    {this.state.loading ? <Spinner /> : null}
+                    {(this.state.currentPage <= this.state.totalPages && !this.state.loading) ?
+                    <LoadMoreBtn text="Load More" onClick={this.loadMoreItems} />
+                    : null }
+                </div>
+            </div>
         )
     }
 }
