@@ -28,5 +28,9 @@
       "last 1 safari version"
     ]
   },
-  "homepage":"https://react-baiscope-movie-app.herokuapp.com/"
+  "homepage":"https://react-baiscope-movie-app.herokuapp.com/",
+  "engines": {
+  "node": "0.10.41",
+  "npm": "1.4.29"
+}
 }
